@@ -1,3 +1,12 @@
 # Server设置
 [server]
     Address    = ":8199"
+
+[database]
+    [[database.default]]
+            host         = "39.105.69.149"
+            port         = "3306"
+            user         = "root"
+            pass         = "zskj123456"
+            name         = "rat"
+            type         = "mysql"
