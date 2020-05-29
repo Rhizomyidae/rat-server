@@ -44,10 +44,10 @@ func JsonExit(r *ghttp.Request, err ErrorCode, msg string, data ...interface{}) 
 	r.Exit()
 }
 
-func SuccessResult(data interface{}) JsonResponse {
-	return JsonResponse{SUCCESS, SUCCESS_MSG, data}
+func SuccessResult(r *ghttp.Request, data interface{}) {
+	_ = r.Response.WriteJson(JsonResponse{SUCCESS, SUCCESS_MSG, data})
 }
 
-func ErrorResult(code ErrorCode, message string) JsonResponse {
-	return JsonResponse{code, message, nil}
+func ErrorResult(r *ghttp.Request, code ErrorCode, message string) {
+	_ = r.Response.WriteJson(JsonResponse{code, message, nil})
 }

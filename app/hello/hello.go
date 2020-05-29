@@ -9,5 +9,5 @@ type Controller struct {
 }
 
 func (c *Controller) Index(r *ghttp.Request) {
-	response.JsonExit(r, 1, "success", "hello world")
+	response.SuccessResult(r, "hello word")
 }
