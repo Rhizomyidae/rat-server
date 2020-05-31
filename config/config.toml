@@ -1,6 +1,6 @@
 # Server设置
 [server]
-    Address    = ":8199"
+    Address    = ":8888"
 
 [database]
     [[database.default]]
@@ -10,3 +10,8 @@
             pass         = "zskj123456"
             name         = "rat"
             type         = "mysql"
+
+[user]
+    [jwt]
+        hours = 72
+        secret = "rat"

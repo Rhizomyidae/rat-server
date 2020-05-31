@@ -1,22 +1,12 @@
 package response
 
 import (
+	"github.com/Rhizomyidae/rat-server/common"
 	"github.com/gogf/gf/net/ghttp"
 )
 
 // 错误码
 type ErrorCode int
-
-const (
-	SUCCESS     ErrorCode = 200
-	FALL        ErrorCode = 400
-	NOT_LOGIN   ErrorCode = 411
-	VERIFY_FALL ErrorCode = 412
-)
-
-const (
-	SUCCESS_MSG = "OK"
-)
 
 // 数据返回通用JSON数据结构
 type JsonResponse struct {
@@ -45,9 +35,21 @@ func JsonExit(r *ghttp.Request, err ErrorCode, msg string, data ...interface{}) 
 }
 
 func SuccessResult(r *ghttp.Request, data interface{}) {
-	_ = r.Response.WriteJson(JsonResponse{SUCCESS, SUCCESS_MSG, data})
+	_ = r.Response.WriteJson(JsonResponse{common.SUCCESS, common.ResponseMap[common.SUCCESS], data})
 }
 
 func ErrorResult(r *ghttp.Request, code ErrorCode, message string) {
 	_ = r.Response.WriteJson(JsonResponse{code, message, nil})
+}
+
+// 返回JSON数据并退出当前HTTP执行函数。
+func JsonOK(r *ghttp.Request, data ...interface{}) {
+	Json(r, common.SUCCESS, common.ResponseMap[common.SUCCESS], data...)
+	r.Exit()
+}
+
+// 返回JSON数据并退出当前HTTP执行函数。
+func JsonERR(r *ghttp.Request, msg string, data ...interface{}) {
+	Json(r, common.ERROR, msg, data...)
+	r.Exit()
 }
