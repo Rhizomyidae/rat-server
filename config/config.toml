@@ -12,6 +12,6 @@
             type         = "mysql"
 
 [user]
-    [jwt]
+    [user.jwt]
         hours = 72
         secret = "rat"

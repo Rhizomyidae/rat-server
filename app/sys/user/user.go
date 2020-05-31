@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/Rhizomyidae/rat-server/common"
 	"github.com/Rhizomyidae/rat-server/lib/response"
 	"github.com/Rhizomyidae/rat-server/util"
 	"github.com/gogf/gf/crypto/gmd5"
@@ -41,6 +42,22 @@ func (c *Controller) Login(r *ghttp.Request) {
 			response.JsonERR(r, "登录失败")
 		}
 	}
+}
+
+func (c *Controller) CheckToken(r *ghttp.Request) {
+	token := r.Header.Get("Authorization")
+
+	b, message, code := util.CheckToken(token)
+
+	if !b {
+		response.JsonERR(r, message)
+	}
+
+	jsonData := make(map[string]interface{}, 1)
+	jsonData["user_id"] = code
+	jsonData["user_name"] = common.UserName
+
+	response.JsonOK(r, jsonData)
 }
 
 func (c *Controller) Logout(r *ghttp.Request) {

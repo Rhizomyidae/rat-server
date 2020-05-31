@@ -1,18 +1,12 @@
 package user
 
 import (
-	"github.com/gogf/gf/database/gdb"
-	"github.com/gogf/gf/frame/g"
+	"github.com/Rhizomyidae/rat-server/app"
 )
-
-var db gdb.DB
-
-func init() {
-	db = g.DB()
-}
 
 //定义控制器
 type Controller struct {
+	app.Controller
 }
 
 // 注册输入参数

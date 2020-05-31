@@ -19,7 +19,7 @@ import (
 
 func MiddlewareCORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
-	//magicToken := r.Header.Get("X-Auth-Token")
+	//magicToken := r.Header.Get("Authorization")
 	//if magicToken == "" {
 	//	response.JsonExit(r, common.TOKEN_ERR, common.TOKEN_ERR_MSG)
 	//}

@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"github.com/Rhizomyidae/rat-server/app"
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
@@ -14,7 +15,7 @@ import (
 
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
 func signIn(passport, password string) (gdb.Record, error) {
-	rone, err := db.GetOne("select * from rat_user where user_name=? limit 1", passport)
+	rone, err := app.Db().GetOne("select * from rat_user where user_name=? limit 1", passport)
 	if err != nil {
 		return rone, err
 	}
@@ -35,7 +36,7 @@ func signIn(passport, password string) (gdb.Record, error) {
 
 // 用户登录，成功返回用户信息，否则返回nil; passport应当会md5值字符串
 func signInRecord(id interface{}, r *ghttp.Request) {
-	_, _ = db.Exec("update rat_user set login_date=now() and login_ip=? where id=?", r.GetClientIp(), id)
+	_, _ = app.Db().Exec("update rat_user set login_date=now() and login_ip=? where id=?", r.GetClientIp(), id)
 }
 
 func signUp(data *SignUpInput) error {
@@ -57,7 +58,7 @@ func signUp(data *SignUpInput) error {
 	}
 
 	encryptString, _ := gmd5.EncryptString(data.Password)
-	_, _ = db.Table("rat_user").Data(g.Map{
+	_, _ = app.Db().Table("rat_user").Data(g.Map{
 		"username": data.Username,
 		"password": encryptString,
 		"nickname": data.Nickname,
@@ -69,7 +70,7 @@ func signUp(data *SignUpInput) error {
 
 // 检查账号是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func checkPassport(passport string) bool {
-	if i, err := db.GetAll("select * from rat_user where user_name=?", passport); err != nil {
+	if i, err := app.Db().GetAll("select * from rat_user where user_name=?", passport); err != nil {
 		return false
 	} else {
 		return len(i) == 0
@@ -78,7 +79,7 @@ func checkPassport(passport string) bool {
 
 // 检查昵称是否符合规范(目前仅检查唯一性),存在返回false,否则true
 func checkNickName(nickname string) bool {
-	if i, err := db.GetAll("select * from rat_user where user_name=?", nickname); err != nil {
+	if i, err := app.Db().GetAll("select * from rat_user where user_name=?", nickname); err != nil {
 		return false
 	} else {
 		return len(i) == 0
