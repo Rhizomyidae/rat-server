@@ -6,11 +6,24 @@ func (m *Menu) FindAllMenu(user_id int) (res []Menu) {
 	// 获取取指page，指定pagesize的记录
 	//err = query.Select("role_id").Where(&UserRole{UserId: user_id}).Find(&res).Error
 
-	_ = app.Db().Table("rat_menu m").
-		LeftJoin("sys_role_menu rm", "m.id = rm.menu_id").
-		LeftJoin("sys_user_role ur ", "ur.role_id = rm.role_id").
-		Fields("m.*").
-		Where("ur.user_id = ?", user_id).Order("m.order_num asc").Group("m.id").Structs(&res)
+	//_ = app.Db().Table("rat_menu m").
+	//	LeftJoin("rat_role_menu rm", "m.id = rm.menu_id").
+	//	LeftJoin("rat_user_role ur ", "ur.role_id = rm.role_id").
+	//	Fields("m.*").
+	//	Where("ur.user_id = ?", user_id).Order("m.order_num asc").Group("m.id").Structs(&res)
+
+	sql := "select m.* from rat_menu m " +
+		"left join rat_role_menu rm on m.id = rm.menu_id " +
+		"left join rat_user_role ur on ur.role_id = rm.role_id " +
+		"where ur.user_id = 1 " +
+		"group by m.id " +
+		"order by m.order_num asc "
+
+	all, _ := app.Db().GetAll(sql)
+	if len(all) > 0 {
+		_ = all.Structs(&res)
+		return
+	}
 
 	return
 }
