@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/Rhizomyidae/rat-server/app/cms/home"
 	"github.com/Rhizomyidae/rat-server/app/hello"
 	"github.com/Rhizomyidae/rat-server/app/sys/captcha"
 	"github.com/Rhizomyidae/rat-server/app/sys/configs"
@@ -12,7 +13,6 @@ import (
 	"github.com/Rhizomyidae/rat-server/app/sys/role"
 	"github.com/Rhizomyidae/rat-server/app/sys/upload"
 	"github.com/Rhizomyidae/rat-server/app/sys/user"
-	"github.com/Rhizomyidae/rat-server/app/sys/wechat"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 )
@@ -40,17 +40,22 @@ func init() {
 
 	s.Group("/api", func(group *ghttp.RouterGroup) {
 		group.Middleware(MiddlewareCORS)
-		group.ALL("/hello", new(hello.Controller))
-		group.ALL("/user", new(user.Controller))
-		group.ALL("/captcha", new(captcha.Controller))
-		group.ALL("/configs", new(configs.Controller))
-		group.ALL("/post", new(post.Controller))
-		group.ALL("/menu", new(menu.Controller))
-		group.ALL("/dict", new(dict.Controller))
-		group.ALL("/dictData", new(dictData.Controller))
-		group.ALL("/dept", new(dept.Controller))
-		group.ALL("/role", new(role.Controller))
-		group.ALL("/upload", new(upload.Controller))
-		group.ALL("/wechat", new(wechat.Controller))
+		s.Group("/sys", func(group *ghttp.RouterGroup) {
+			group.ALL("/hello", new(hello.Controller))
+			group.ALL("/user", new(user.Controller))
+			group.ALL("/captcha", new(captcha.Controller))
+			group.ALL("/configs", new(configs.Controller))
+			group.ALL("/post", new(post.Controller))
+			group.ALL("/menu", new(menu.Controller))
+			group.ALL("/dict", new(dict.Controller))
+			group.ALL("/dictData", new(dictData.Controller))
+			group.ALL("/dept", new(dept.Controller))
+			group.ALL("/role", new(role.Controller))
+			group.ALL("/upload", new(upload.Controller))
+		})
+
+		s.Group("/cms", func(group *ghttp.RouterGroup) {
+			group.ALL("/home", new(home.Controller))
+		})
 	})
 }
