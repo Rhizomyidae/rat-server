@@ -10,7 +10,7 @@ func (c *Controller) Index(r *ghttp.Request) {
 	if err := r.Parse(&data); err != nil {
 		response.JsonERR(r, err.Error())
 	}
-	if one, err := queryArticle(); err != nil {
+	if one, err := queryArticle(data); err != nil {
 		response.JsonERR(r, err.Error())
 	} else {
 		response.JsonOK(r, one)
